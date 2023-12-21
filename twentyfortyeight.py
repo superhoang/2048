@@ -96,6 +96,14 @@ def hasValidMoveLine(i):
             return True
     return False
 
+def packColumnUp(j):
+    for i in range(3):
+        if sum(tiles[j+i*4:16:4]) == 0:
+            return
+        else:
+            while tiles[j+4*i] == 0:
+                tiles[j+i*4:16:4] = tiles[j+i*4+4:16:4] + [0]
+
 def moveUpOnColumn(j):
     '''TODO : Pack `tiles` to the top, merge adjacent tiles to the top.
     If any new tile is created, increment `score` by the value of the new tile.'''
