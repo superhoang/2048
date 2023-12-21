@@ -67,12 +67,33 @@ def main():
     mainWindow.mainloop()
 
 def addRandomTile():
-    '''TODO : Find an empty spot in `tiles` and fill it with 2 or 4.
-    return True if success or False if no empty spot available'''
+    if not 0 in tiles:
+        return False
+    r = random.randint(0,15)
+    while tiles[r]!= 0:
+        r = random.randint(0,15)
+    tiles[r] = random.randint(1,2)*2
     return True
 
 def noValidMove():
-    '''TODO : return False if two adjacent cells have the same value, True otherwise.'''
+    for i in range(0,4):
+        if hasValidMoveLine(i):
+            return False
+    for j in range(0,4):
+        if hasValidMoveColumn(j):
+            return False
+    return True
+
+def hasValidMoveColumn(j):
+    for i in range(0,3):
+        if tiles[4*i+j] == tiles[4*i+j+4]:
+            return True
+        return False
+
+def hasValidMoveLine(i):
+    for j in range(0,3):
+        if tiles[4*i+j] == tiles[4*i+j+1]:
+            return True
     return False
 
 def moveUpOnColumn(j):
