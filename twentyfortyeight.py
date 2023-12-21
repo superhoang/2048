@@ -76,25 +76,14 @@ def addRandomTile():
     return True
 
 def noValidMove():
-    for i in range(0,4):
-        if hasValidMoveLine(i):
-            return False
-    for j in range(0,4):
-        if hasValidMoveColumn(j):
-            return False
-    return True
-
-def hasValidMoveColumn(j):
-    for i in range(0,3):
-        if tiles[4*i+j] == tiles[4*i+j+4]:
-            return True
+    if 0 in tiles:
         return False
 
-def hasValidMoveLine(i):
-    for j in range(0,3):
-        if tiles[4*i+j] == tiles[4*i+j+1]:
-            return True
-    return False
+    for i in range(4):
+        for j in range(3):
+            if tiles[4*i+j] == tiles[4*i+j+1] or tiles[4*j+i] == tiles[4*j+i+4]:
+                return False
+    return True
 
 def packColumnUp(j):
     for i in range(3):
@@ -198,13 +187,16 @@ def createTile(i, j):
 def resetGame():
     global moveCounter
     global isGameOver
+    global score
     moveCounter = 0
     isGameOver = False
     for i in range (0,16):
         tiles[i] = 0
     addRandomTile()
     addRandomTile()
+    score = 0
     updateGrid()
+
 
 def initGrid():
     for i in range (0,4):
