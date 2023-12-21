@@ -99,7 +99,18 @@ def hasValidMoveLine(i):
 def moveUpOnColumn(j):
     '''TODO : Pack `tiles` to the top, merge adjacent tiles to the top.
     If any new tile is created, increment `score` by the value of the new tile.'''
+    #packColumnUp(j)
+    mergeColumnUp(j)
+    #packColumnUp(j)
 
+def mergeColumnUp(j):
+    global score
+    for i in range(0,3):
+        if tiles[0+j+4*i] == tiles[4+j+4*i] and tiles[4+j+4*i] != 0:
+            tiles[0+j+4*i] *= 2
+            tiles[4+j+4*i] = 0
+            score += tiles[0+j+4*i]
+    
 def packLineRight(i):
     for j in range(3):
         if sum(tiles[i*4:i*4+4-j]) == 0:
@@ -109,13 +120,15 @@ def packLineRight(i):
                 tiles[i*4:i*4+4-j] = [0] + tiles[i*4:i*4+3-j]
 
 def mergeLineRight(i):
+    global score
     for j in range(3):
         if tiles[i*4+j] == tiles[i*4+j+1]:
             tiles[i*4+j+1] = 0
-            tiles[i*4+j] = tiles[i*4+j]*2
+            tiles[i*4+j] *= 2
+            score += tiles[i*4+j]
 
 def moveRightOnLine(i):
-    '''TODO : Pack `tiles` to the right, merge adjacent tiles to the right.
+    '''Pack `tiles` to the right, merge adjacent tiles to the right.
     If any new tile is created, increment `score` by the value of the new tile.'''
     packLineRight(i)
     mergeLineRight(i)
@@ -130,12 +143,20 @@ def packColumnDown(j):
                 tiles[j:16-4*i:4] = [0] + tiles[j:12-4*i:4]
 
 def moveDownOnColumn(j):
-    '''TODO : Pack `tiles` to the bottom, merge adjacent tiles to the bottom.
+    '''Pack `tiles` to the bottom, merge adjacent tiles to the bottom.
     If any new tile is created, increment `score` by the value of the new tile.'''
     packColumnDown(j)
-    # mergeColumnDown(j)
+    mergeColumnDown(j)
     packColumnDown(j)
-    
+
+def mergeColumnDown(j):
+    global score
+    for i in range(0,3):
+        if tiles[12+j-4*i] == tiles[8+j-4*i] and tiles[8+j-4*i] != 0:
+            tiles[12+j-4*i] *= 2
+            tiles[8+j-4*i] = 0
+            score += tiles[12+j-4*i]
+
 def packLineLeft(i):
     for j in range(3):
         if sum(tiles[i * 4 + j : i * 4 + 4]) == 0:
@@ -145,14 +166,16 @@ def packLineLeft(i):
                 tiles[i * 4 + j : i * 4 + 4] = tiles[i * 4 + j + 1 : i * 4 + 4] + [0]
 
 def mergeLineLeft(i):
+    global score
     for j in range(3):
         if tiles[i*4+j] == tiles[i*4+j+1] and tiles[i*4+j] != 0:
             tiles[i*4+j+1] = 0
-            tiles[i*4+j] = tiles[i*4+j]*2
+            tiles[i*4+j] *= 2
+            score +=  tiles[i*4+j]
 
 def moveLeftOnLine(i):
     '''Pack `tiles` to the left, merge adjacent tiles to the left.
-    TODO :If any new tile is created, increment `score` by the value of the new tile.'''
+    If any new tile is created, increment `score` by the value of the new tile.'''
     packLineLeft(i)
     mergeLineLeft(i)
     packLineLeft(i)
