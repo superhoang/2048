@@ -97,11 +97,11 @@ def hasValidMoveLine(i):
     return False
 
 def moveUpOnColumn(j):
-    '''TODO : Pack `tiles` to the top, merge adjacent tiles to the top.
+    '''Pack `tiles` to the top, merge adjacent tiles to the top.
     If any new tile is created, increment `score` by the value of the new tile.'''
-    #packColumnUp(j)
+    packColumnUp(j)
     mergeColumnUp(j)
-    #packColumnUp(j)
+    packColumnUp(j)
 
 def mergeColumnUp(j):
     global score
