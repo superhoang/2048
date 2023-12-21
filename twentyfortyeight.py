@@ -79,17 +79,62 @@ def moveUpOnColumn(j):
     '''TODO : Pack `tiles` to the top, merge adjacent tiles to the top.
     If any new tile is created, increment `score` by the value of the new tile.'''
 
+def packLineRight(i):
+    for j in range(3):
+        if sum(tiles[i*4:i*4+4-j]) == 0:
+            return
+        else:
+            while tiles[i * 4 - j + 3] == 0:
+                tiles[i*4:i*4+4-j] = [0] + tiles[i*4:i*4+3-j]
+
+def mergeLineRight(i):
+    for j in range(3):
+        if tiles[i*4+j] == tiles[i*4+j+1]:
+            tiles[i*4+j+1] = 0
+            tiles[i*4+j] = tiles[i*4+j]*2
+
 def moveRightOnLine(i):
     '''TODO : Pack `tiles` to the right, merge adjacent tiles to the right.
     If any new tile is created, increment `score` by the value of the new tile.'''
+    packLineRight(i)
+    mergeLineRight(i)
+    packLineRight(i)
     
+def packColumnDown(j):
+    for i in range(3):
+        if sum(tiles[j:16-4*i:4]) == 0:
+            return
+        else:
+            while tiles[12+j-4*i] == 0:
+                tiles[j:16-4*i:4] = [0] + tiles[j:12-4*i:4]
+
 def moveDownOnColumn(j):
     '''TODO : Pack `tiles` to the bottom, merge adjacent tiles to the bottom.
     If any new tile is created, increment `score` by the value of the new tile.'''
+    packColumnDown(j)
+    # mergeColumnDown(j)
+    packColumnDown(j)
+    
+def packLineLeft(i):
+    for j in range(3):
+        if sum(tiles[i * 4 + j : i * 4 + 4]) == 0:
+            return
+        else:
+            while tiles[i * 4 + j] == 0:
+                tiles[i * 4 + j : i * 4 + 4] = tiles[i * 4 + j + 1 : i * 4 + 4] + [0]
+
+def mergeLineLeft(i):
+    for j in range(3):
+        if tiles[i*4+j] == tiles[i*4+j+1] and tiles[i*4+j] != 0:
+            tiles[i*4+j+1] = 0
+            tiles[i*4+j] = tiles[i*4+j]*2
 
 def moveLeftOnLine(i):
-    '''TODO : Pack `tiles` to the left, merge adjacent tiles to the left.
-    If any new tile is created, increment `score` by the value of the new tile.'''
+    '''Pack `tiles` to the left, merge adjacent tiles to the left.
+    TODO :If any new tile is created, increment `score` by the value of the new tile.'''
+    packLineLeft(i)
+    mergeLineLeft(i)
+    packLineLeft(i)
 
 def createTile(i, j):
     dx = (j * TILE_WIDTH + SPACING) + SPACING
@@ -108,7 +153,7 @@ def resetGame():
     addRandomTile()
     addRandomTile()
     updateGrid()
-    
+
 def initGrid():
     for i in range (0,4):
         for j in range (0,4):
@@ -153,7 +198,7 @@ def updateGrid():
         updateMessage("GAME OVER ! Press Enter to start a new game.")
     else:
         updateMessage('')
-        
+
 def updateTiles():
     for i in range(0, 4):
         for j in range (0, 4):
