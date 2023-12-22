@@ -120,8 +120,8 @@ def mergeLineRight(i):
     global score
     for j in range(3):
         if tiles[i*4+3-j] == tiles[i*4+2-j]:
-            tiles[i*4+3-j] = 0
-            tiles[i*4+2-j] *= 2
+            tiles[i*4+3-j] *= 2
+            tiles[i*4+2-j] = 0
             score += tiles[i*4+3-j]
 
 def moveRightOnLine(i):
@@ -188,12 +188,10 @@ def resetGame():
     global moveCounter
     global isGameOver
     global score
-    global tiles
     moveCounter = 0
     isGameOver = False
     for i in range (0,16):
         tiles[i] = 0
-    tiles = [2, 2, 4, 8] + [0] * 12
     addRandomTile()
     addRandomTile()
     score = 0
