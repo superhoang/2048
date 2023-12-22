@@ -48,8 +48,8 @@ def main():
     moves       = 0
     uiTiles     = [None] * 16 # background color of our tiles
     labels      = [None] * 16 # labels of our tiles
-    tileColors  = ['antique white', 'bisque', 'dark salmon', 'salmon', 'tomato', 'orange red', 'red', 'light goldenrod', 'dark goldenrod', 'yellow', 'blue']
-    textColors  = ['NavajoWhite4','NavajoWhite4','white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white']
+    tileColors  = ['#eee4da', '#eee4da', '#ede0c8', '#f2b179', '#f59563', '#f67c5f', '#f65e3b', '#edcf72', '#edcc61', '#edc850', '#edc53f', '#edc22e']
+    textColors  = ['NavajoWhite4','NavajoWhite4','white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white']
 
     mainWindow = tkinter.Tk()
     mainWindow.title("2048")
@@ -78,12 +78,25 @@ def addRandomTile():
 def noValidMove():
     if 0 in tiles:
         return False
-
-    for i in range(4):
-        for j in range(3):
-            if tiles[4*i+j] == tiles[4*i+j+1] or tiles[4*j+i] == tiles[4*j+i+4]:
-                return False
+    for i in range(0,4):
+        if hasValidMoveLine(i):
+            return False
+    for j in range(0,4):
+        if hasValidMoveColumn(j):
+            return False
     return True
+
+def hasValidMoveColumn(j):
+    for i in range(0,3):
+        if tiles[4*i+j] == tiles[4*i+j+4]:
+            return True
+    return False
+
+def hasValidMoveLine(i):
+    for j in range(0,3):
+        if tiles[4*i+j] == tiles[4*i+j+1]:
+            return True
+    return False
 
 def packColumnUp(j):
     for i in range(3):
@@ -185,11 +198,13 @@ def createTile(i, j):
     return uiTiles[4*i+j]
 
 def resetGame():
+    global score
     global moveCounter
     global isGameOver
     global score
     moveCounter = 0
     isGameOver = False
+    score = 0
     for i in range (0,16):
         tiles[i] = 0
     addRandomTile()
@@ -251,8 +266,8 @@ def updateTiles():
 def updateTile(i, j, value):
     display = '' if value == 0 else str(value)
     level = int(math.log2(value+1))
-    grid.itemconfigure(labels[4*i+j], text=display, font=("Arial", 20 + level), fill=textColors[level])
-    grid.itemconfigure(uiTiles[4*i+j], fill=tileColors[level])
+    grid.itemconfigure(labels[4*i+j], text=display, font=("Arial", 20 + level), fill=textColors[level % len(textColors)])
+    grid.itemconfigure(uiTiles[4*i+j], fill=tileColors[level % len(tileColors)])
 
 def updateMessage(msg):
   message['text'] = msg
