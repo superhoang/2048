@@ -119,10 +119,10 @@ def packLineRight(i):
 def mergeLineRight(i):
     global score
     for j in range(3):
-        if tiles[i*4+j] == tiles[i*4+j+1]:
-            tiles[i*4+j+1] = 0
-            tiles[i*4+j] *= 2
-            score += tiles[i*4+j]
+        if tiles[i*4+3-j] == tiles[i*4+2-j]:
+            tiles[i*4+2-j] = 0
+            tiles[i*4+3-j] *= 2
+            score += tiles[i*4+3-j]
 
 def moveRightOnLine(i):
     '''Pack `tiles` to the right, merge adjacent tiles to the right.
