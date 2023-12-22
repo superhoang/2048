@@ -120,8 +120,8 @@ def mergeLineRight(i):
     global score
     for j in range(3):
         if tiles[i*4+j] == tiles[i*4+j+1]:
-            tiles[i*4+j+1] = 0
-            tiles[i*4+j] *= 2
+            tiles[i*4+j] = 0
+            tiles[i*4+j+1] *= 2
             score += tiles[i*4+j]
 
 def moveRightOnLine(i):
